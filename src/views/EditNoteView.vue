@@ -7,13 +7,10 @@ const noteId = route.params.id as string
 </script>
 
 <template>
-  <div class="edit-note-view">
+  <div>
     <NoteForm mode="edit" :note-id="noteId" />
   </div>
 </template>
 
 <style scoped>
-.edit-note-view {
-  width: 100%;
-}
 </style>

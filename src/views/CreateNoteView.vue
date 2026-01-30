@@ -4,13 +4,10 @@ import NoteForm from '@/components/NoteForm.vue'
 </script>
 
 <template>
-  <div class="create-note-view">
+  <div>
     <NoteForm mode="create" />
   </div>
 </template>
 
 <style scoped>
-.create-note-view {
-  width: 100%;
-}
 </style>
