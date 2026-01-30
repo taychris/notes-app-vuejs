@@ -48,6 +48,7 @@ export const useNotesStore = defineStore('notes', () => {
     }
 
     function setCategory(category: Category | 'All') {
+        selectedCategory.value = category
     }
 
     function clearError() {

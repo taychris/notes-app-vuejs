@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Category } from '@/types'
 import { useNotesStore } from '@/stores/notesStore'
+import CategorySelector from '@/components/CategorySelector.vue'
 
 const notesStore = useNotesStore()
-
-const categories = ref<Array<Category | 'All'>>(['All', ...Object.values(Category)])
 </script>
 
 <template>
-  <div>
-    <h3>Filter by Category</h3>
-    <div></div>
+  <div class="flex flex-col gap-3 mb-6">
+    <h3 class="font-medium text-xl">Filter by Category</h3>
+    <CategorySelector v-model="notesStore.selectedCategory" include-all />
   </div>
 </template>
-
-<style scoped>
-</style>
