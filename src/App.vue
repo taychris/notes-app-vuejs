@@ -2,6 +2,8 @@
 import { RouterView } from 'vue-router'
 import DarkModeToggle from './components/DarkModeToggle.vue';
 import Button from './components/ui/button/Button.vue';
+import 'vue-sonner/style.css'
+import { Toaster } from '@/components/ui/sonner'
 </script>
 
 <template>
@@ -24,6 +26,7 @@ import Button from './components/ui/button/Button.vue';
         <p>Built with Vue 3 + TypeScript + Pinia</p>
       </div>
     </footer>
+    <Toaster />
   </div>
 </template>
 

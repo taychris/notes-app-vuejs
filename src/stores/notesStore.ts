@@ -11,40 +11,92 @@ export const useNotesStore = defineStore('notes', () => {
     const error = ref<string | null>(null)
 
     const filteredNotes = computed(() => {
-        return notes.value
+        if (selectedCategory.value === 'All') {
+            return notes.value
+        }
+        return notes.value.filter((note) => note.category === selectedCategory.value)
     })
 
     const sortedNotes = computed(() => {
-        return filteredNotes.value
+        return [...filteredNotes.value].sort(
+            (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        )
     })
 
     const noteById = computed(() => {
-        return (id: string) => {
-            return undefined
-        }
+        return (id: string) => notes.value.find((note) => note.id === id)
     })
 
-    const totalNotes = computed(() => {
-        return 0
-    })
+    const totalNotes = computed(() => notes.value.length)
 
     const notesByCategory = computed(() => {
         const categoryCounts: Record<string, number> = {
-            All: 0
+            All: notes.value.length,
+        }
+        for (const category of Object.values(Category)) {
+            categoryCounts[category] = notes.value.filter((note) => note.category === category).length
         }
         return categoryCounts
     })
 
     async function fetchNotes() {
+        isLoading.value = true
+        error.value = null
+        try {
+            notes.value = await notesApi.fetchNotes()
+        } catch (e) {
+            error.value = e instanceof Error ? e.message : 'Failed to fetch notes'
+            throw e
+        } finally {
+            isLoading.value = false
+        }
     }
 
     async function addNote(noteData: CreateNoteDto) {
+        isLoading.value = true
+        error.value = null
+        try {
+            const newNote = await notesApi.createNote(noteData)
+            notes.value.push(newNote)
+            return newNote
+        } catch (e) {
+            error.value = e instanceof Error ? e.message : 'Failed to create note'
+            throw e
+        } finally {
+            isLoading.value = false
+        }
     }
 
     async function updateNote(noteData: UpdateNoteDto) {
+        isLoading.value = true
+        error.value = null
+        try {
+            const updatedNote = await notesApi.updateNote(noteData)
+            const index = notes.value.findIndex((note) => note.id === noteData.id)
+            if (index !== -1) {
+                notes.value[index] = updatedNote
+            }
+            return updatedNote
+        } catch (e) {
+            error.value = e instanceof Error ? e.message : 'Failed to update note'
+            throw e
+        } finally {
+            isLoading.value = false
+        }
     }
 
     async function deleteNote(id: string) {
+        isLoading.value = true
+        error.value = null
+        try {
+            await notesApi.deleteNote(id)
+            notes.value = notes.value.filter((note) => note.id !== id)
+        } catch (e) {
+            error.value = e instanceof Error ? e.message : 'Failed to delete note'
+            throw e
+        } finally {
+            isLoading.value = false
+        }
     }
 
     function setCategory(category: Category | 'All') {
@@ -52,6 +104,7 @@ export const useNotesStore = defineStore('notes', () => {
     }
 
     function clearError() {
+        error.value = null
     }
 
     return {
@@ -69,6 +122,6 @@ export const useNotesStore = defineStore('notes', () => {
         updateNote,
         deleteNote,
         setCategory,
-        clearError
+        clearError,
     }
 })

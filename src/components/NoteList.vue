@@ -9,13 +9,15 @@ import { PlusIcon } from 'lucide-vue-next'
 const router = useRouter()
 const notesStore = useNotesStore()
 
-onMounted(() => { })
-
-function handleEdit(id: string) { }
+function handleEdit(id: string) {
+  router.push(`/edit/${id}`)
+}
 
 async function handleDelete(id: string) { }
 
-function handleCreateNote() { }
+function handleCreateNote() {
+  router.push('/create')
+}
 </script>
 
 <template>
