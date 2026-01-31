@@ -42,8 +42,8 @@ const adjustedCategories = computed<Array<Category | 'All'>>(() => {
 <template>
   <ul class="flex flex-wrap gap-2">
     <li v-for="category in adjustedCategories" :key="category">
-      <Button type="button" size="sm" :variant="selectedCategory === category ? 'default' : 'outline'"
-        :title="'Select ' + category" :class="cn(selectedCategory !== category && categoryColors[category].color, 'gap-0')"
+      <Button type="button" size="sm" :title="'Select ' + category"
+        :class="cn(categoryColors[category].color, 'gap-0 text-background group')"
         @click="selectedCategory = category">
         {{ category }}
         <span class="inline-flex overflow-hidden transition-all duration-200 ease-out"

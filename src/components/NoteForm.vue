@@ -7,6 +7,7 @@ import CategorySelector from './CategorySelector.vue'
 import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { SaveIcon, X } from 'lucide-vue-next'
 
 interface Props {
   noteId?: string
@@ -55,7 +56,7 @@ function handleCancel() {
 <template>
   <div class="w-full max-w-2xl">
     <h2 class="text-2xl font-semibold mb-6">
-      {{ mode === 'edit' ? 'Edit Note' : 'Create New Note' }}
+      {{ mode === 'edit' ? 'Edit note' : 'Create new note' }}
     </h2>
 
     <form class="flex flex-col gap-6" @submit="onSubmit">
@@ -97,10 +98,12 @@ function handleCancel() {
 
       <div class="flex gap-3 justify-end pt-4">
         <Button type="button" variant="outline" @click="handleCancel">
+          <X/>
           Cancel
         </Button>
         <Button type="submit">
-          {{ mode === 'edit' ? 'Update Note' : 'Create Note' }}
+          <SaveIcon/>
+          {{ mode === 'edit' ? 'Update' : 'Create' }}
         </Button>
       </div>
     </form>

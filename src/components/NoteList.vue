@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useNotesStore } from '@/stores/notesStore'
 import NoteItem from './NoteItem.vue'
@@ -24,15 +23,42 @@ function handleCreateNote() {
   <div>
     <div class="flex items-center justify-between">
       <h2 class="font-medium text-xl w-max">My Notes</h2>
-      <Button @click="handleCreateNote">
+      <Button @click="handleCreateNote" title="Create new note">
         <PlusIcon class="h-4 w-4" />
         New Note
       </Button>
     </div>
-    <ul>
-      <li></li>
-    </ul>
+    <TransitionGroup name="note" tag="ul" class="relative mt-4 grid gap-4">
+      <li v-for="note in notesStore.filteredNotes" :key="note.id" class="list-none">
+        <NoteItem
+          :note="note"
+          @edit="handleEdit(note.id)"
+          @delete="handleDelete(note.id)"
+        />
+      </li>
+    </TransitionGroup>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.note-enter-active,
+.note-leave-active {
+  transition: all 0.3s ease;
+}
+
+.note-leave-active {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.note-enter-from,
+.note-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.note-move {
+  transition: transform 0.3s ease;
+}
+</style>

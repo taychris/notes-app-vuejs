@@ -39,7 +39,10 @@ export const useNotesStore = defineStore('notes', () => {
         return categoryCounts
     })
 
-    async function fetchNotes() {
+    async function fetchNotes(force = false) {
+        // Avoid fetching if notes are already loaded unless forced
+        if (notes.value.length > 0 && !force) return
+
         isLoading.value = true
         error.value = null
         try {
