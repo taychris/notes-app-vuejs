@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Pencil, Trash2 } from 'lucide-vue-next'
 import { categoryColors } from '@/constants/categoryColors'
-import { format } from 'date-fns'
+import { formatRelativeDate } from '@/utils/formatRelativeDate'
 
 interface Props {
   note: Note
@@ -44,7 +44,7 @@ function handleDelete(id: string) {
       <div class="flex items-center gap-4">
         <Badge :class="categoryColors[note.category].color">{{ note.category }}</Badge>
         <span class="text-xs text-muted-foreground">
-          {{ format(new Date(note.updatedAt), "PP") }}
+          {{ formatRelativeDate(note.updatedAt) }}
         </span>
       </div>
       <div class="flex items-center gap-2">
