@@ -1,18 +1,29 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useNotesStore } from '@/stores/notesStore'
 import NoteItem from './NoteItem.vue'
+import DeleteNoteDialog from './DeleteNoteDialog.vue'
 import Button from './ui/button/Button.vue'
 import { PlusIcon } from 'lucide-vue-next'
 
 const router = useRouter()
 const notesStore = useNotesStore()
 
+const isDeleteDialogOpen = ref(false)
+const noteToDelete = ref<{ id: string; title: string } | null>(null)
+
 function handleEdit(id: string) {
   router.push(`/edit/${id}`)
 }
 
-async function handleDelete(id: string) { }
+function handleDelete(id: string) {
+  const note = notesStore.noteById(id)
+  if (note) {
+    noteToDelete.value = { id: note.id, title: note.title }
+    isDeleteDialogOpen.value = true
+  }
+}
 
 function handleCreateNote() {
   router.push('/create')
@@ -37,6 +48,12 @@ function handleCreateNote() {
         />
       </li>
     </TransitionGroup>
+
+    <DeleteNoteDialog
+      v-model:open="isDeleteDialogOpen"
+      :note-id="noteToDelete?.id ?? null"
+      :note-title="noteToDelete?.title"
+    />
   </div>
 </template>
 
