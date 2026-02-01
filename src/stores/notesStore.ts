@@ -7,16 +7,30 @@ import { notesApi } from '@/services/notesApi'
 export const useNotesStore = defineStore('notes', () => {
   const notes = ref<Note[]>([])
   const selectedCategory = ref<Category | 'All'>('All')
+  const searchQuery = ref('')
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
+  // Returns notes filtered by category and search query, sorted by most recent
   const filteredNotes = computed(() => {
-    const filtered =
-      selectedCategory.value === 'All'
-        ? notes.value
-        : notes.value.filter((note) => note.category === selectedCategory.value)
+    const query = searchQuery.value.toLowerCase().trim()
 
-    return [...filtered].sort(
+    const filtered = notes.value.filter((note) => {
+      // Check if note matches the selected category (or 'All' is selected)
+      const matchesCategory =
+        selectedCategory.value === 'All' || note.category === selectedCategory.value
+
+      // Check if note title or description contains the search query
+      const matchesSearch =
+        query === '' ||
+        note.title.toLowerCase().includes(query) ||
+        note.description.toLowerCase().includes(query)
+
+      return matchesCategory && matchesSearch
+    })
+
+    // Sort by updatedAt descending (most recent first)
+    return filtered.sort(
       (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
     )
   })
@@ -104,6 +118,10 @@ export const useNotesStore = defineStore('notes', () => {
     selectedCategory.value = category
   }
 
+  function setSearchQuery(query: string) {
+    searchQuery.value = query
+  }
+
   function clearError() {
     error.value = null
   }
@@ -111,6 +129,7 @@ export const useNotesStore = defineStore('notes', () => {
   return {
     notes,
     selectedCategory,
+    searchQuery,
     isLoading,
     error,
     filteredNotes,
@@ -122,6 +141,7 @@ export const useNotesStore = defineStore('notes', () => {
     updateNote,
     deleteNote,
     setCategory,
+    setSearchQuery,
     clearError,
   }
 })

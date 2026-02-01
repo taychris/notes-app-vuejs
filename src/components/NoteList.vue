@@ -6,6 +6,7 @@ import NoteItem from './NoteItem.vue'
 import DeleteNoteDialog from './DeleteNoteDialog.vue'
 import Button from './ui/button/Button.vue'
 import { PlusIcon } from 'lucide-vue-next'
+import Searchbar from './Searchbar.vue'
 
 const router = useRouter()
 const notesStore = useNotesStore()
@@ -32,14 +33,15 @@ function handleCreateNote() {
 
 <template>
   <div>
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between mb-4">
       <h2 class="font-medium text-xl w-max">My notes</h2>
       <Button @click="handleCreateNote" title="Create new note">
         <PlusIcon class="h-4 w-4" />
         New
       </Button>
     </div>
-    <TransitionGroup name="note" tag="ul" class="relative mt-4 grid gap-4">
+    <Searchbar />
+    <TransitionGroup name="note" tag="ul" class="relative mt-6 grid gap-4">
       <li v-for="note in notesStore.filteredNotes" :key="note.id" class="list-none">
         <NoteItem :note="note" @edit="handleEdit(note.id)" @delete="handleDelete(note.id)" />
       </li>
