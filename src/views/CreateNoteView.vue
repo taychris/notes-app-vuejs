@@ -8,8 +8,9 @@ const router = useRouter()
 
 const { isCreating, createNote } = useCreateNote()
 
-async function handleSubmit(data: NoteFormValues) {
-  await createNote(data)
+async function handleSubmit(data: NoteFormValues, helpers: { reset: () => void }) {
+  const success = await createNote(data)
+  if (success) helpers.reset()
 }
 
 function handleCancel() {

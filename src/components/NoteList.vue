@@ -56,8 +56,11 @@ function handleCreateNote() {
       <li v-for="note in notesStore.filteredNotes" :key="note.id" class="list-none">
         <NoteItem :note="note" @edit="handleEdit(note.id)" @delete="handleDelete(note.id)" />
       </li>
-      <li v-if="notesStore.filteredNotes.length === 0" key="empty" class="list-none">
+      <li v-if="notesStore.filteredNotes.length === 0 && !notesStore.isLoading" key="empty" class="list-none">
         <p class="text-center text-muted-foreground mt-4 font-light">No notes found.</p>
+      </li>
+      <li v-if="notesStore.isLoading" key="loading" class="list-none">
+        <p class="text-center text-muted-foreground mt-4 font-light animate-pulse">Loading notes...</p>
       </li>
     </TransitionGroup>
 

@@ -38,7 +38,12 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   cancel: []
-  submit: [data: NoteFormValues]
+  submit: [
+    data: NoteFormValues,
+    helpers: {
+      reset: () => void
+    },
+  ]
 }>()
 
 const validationSchema = toTypedSchema(noteSchema)
@@ -68,20 +73,19 @@ watch(
 )
 
 const onSubmit = handleSubmit((data) => {
-  // only reset form if in create mode
-  // and keep selected category
-  if (props.mode === 'create') resetForm({
-    values: {
-      title: '',
-      description: '',
-      category: data.category,
-    },
+  emit('submit', data, {
+    reset: () =>
+      resetForm({
+        values: {
+          title: '',
+          description: '',
+          category: data.category,
+        },
+      }),
   })
-  emit('submit', data)
 })
 
 function handleCancel() {
-  resetForm()
   emit('cancel')
 }
 </script>

@@ -50,7 +50,7 @@ function handleCancel() {
 </script>
 
 <template>
-  <AlertDialog v-model:open="isOpen">
+  <AlertDialog :open="isOpen">
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>Delete note</AlertDialogTitle>
@@ -66,11 +66,8 @@ function handleCancel() {
           <XIcon class="size-4" />
           Cancel
         </AlertDialogCancel>
-        <AlertDialogAction
-          class="bg-red-500 text-white hover:bg-destructive/90"
-          :disabled="isDeleting"
-          @click.prevent="handleConfirmDelete"
-        >
+        <AlertDialogAction class="bg-red-500 text-white hover:bg-destructive/90" :disabled="isDeleting"
+          @click.prevent="handleConfirmDelete">
           <Loader2 v-if="isDeleting" class="size-4 animate-spin" />
           <TrashIcon v-if="!isDeleting" class="size-4" />
           {{ isDeleting ? 'Deleting...' : 'Delete' }}
