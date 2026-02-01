@@ -35,7 +35,7 @@ function handleDelete(id: string) {
     </CardHeader>
 
     <CardContent>
-      <p class="line-clamp-3 bg-gray-100 dark:bg-neutral-800 p-2 rounded-md text-sm">
+      <p class="bg-gray-100 dark:bg-neutral-800 p-2 rounded-md text-sm">
         {{ note.description }}
       </p>
     </CardContent>

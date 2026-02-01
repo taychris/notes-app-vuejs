@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { SaveIcon, X, Loader2 } from 'lucide-vue-next'
 import { Textarea } from './ui/textarea'
+import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from './ui/input-group'
 
 interface Props {
   mode?: 'create' | 'edit'
@@ -108,9 +109,16 @@ function handleCancel() {
             Description
             <span class="text-destructive">*</span>
           </FieldLabel>
-          <Textarea id="description" :model-value="value" @update:model-value="handleChange"
-            placeholder="Enter note description..." rows="6" :aria-invalid="!!errors.length"
-            class="placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive resize-none" />
+          <InputGroup>
+            <InputGroupTextarea id="form-vee-demo-description" :model-value="value"
+              placeholder="I'm having an issue with the login button on mobile." :rows="6" class="min-h-24 resize-none"
+              :aria-invalid="!!errors.length" @update:model-value="handleChange" />
+            <InputGroupAddon align="block-end">
+              <InputGroupText class="tabular-nums font-normal">
+                {{ value?.length || 0 }}/500 characters
+              </InputGroupText>
+            </InputGroupAddon>
+          </InputGroup>
           <FieldError :errors="errors" />
         </Field>
       </VeeField>
