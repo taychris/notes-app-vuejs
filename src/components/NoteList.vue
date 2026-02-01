@@ -53,14 +53,14 @@ function handleCreateNote() {
     </div>
     <Searchbar />
     <TransitionGroup name="note" tag="ul" class="relative mt-6 grid gap-4">
-      <li v-for="note in notesStore.filteredNotes" :key="note.id" class="list-none">
-        <NoteItem :note="note" @edit="handleEdit(note.id)" @delete="handleDelete(note.id)" />
-      </li>
       <li v-if="notesStore.filteredNotes.length === 0 && !notesStore.isLoading" key="empty" class="list-none">
         <p class="text-center text-muted-foreground mt-4 font-light">No notes found.</p>
       </li>
       <li v-if="notesStore.isLoading" key="loading" class="list-none">
         <p class="text-center text-muted-foreground mt-4 font-light animate-pulse">Loading notes...</p>
+      </li>
+      <li v-if="!notesStore.isLoading" v-for="note in notesStore.filteredNotes" :key="note.id" class="list-none">
+        <NoteItem :note="note" @edit="handleEdit(note.id)" @delete="handleDelete(note.id)" />
       </li>
     </TransitionGroup>
 
