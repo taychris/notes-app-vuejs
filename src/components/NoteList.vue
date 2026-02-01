@@ -8,12 +8,17 @@ import Button from './ui/button/Button.vue'
 import { PlusIcon } from 'lucide-vue-next'
 import Searchbar from './Searchbar.vue'
 import ExportDropdown from './ExportDropdown.vue'
+import RefreshNotes from './RefreshNotes.vue'
 
 const router = useRouter()
 const notesStore = useNotesStore()
 
 const isDeleteDialogOpen = ref(false)
 const noteToDelete = ref<{ id: string; title: string } | null>(null)
+
+function handleRefresh() {
+  notesStore.fetchNotes(true)
+}
 
 function handleEdit(id: string) {
   router.push(`/edit/${id}`)
@@ -37,6 +42,7 @@ function handleCreateNote() {
     <div class="flex items-center justify-between mb-4">
       <h2 class="font-medium text-xl w-max">My notes</h2>
       <div class="flex items-center gap-2">
+        <RefreshNotes @click="handleRefresh" :is-loading="notesStore.isLoading" />
         <ExportDropdown :selected-category="notesStore.selectedCategory" :filtered-notes="notesStore.filteredNotes"
           :search-query="notesStore.searchQuery" />
         <Button @click="handleCreateNote" title="Create new note">

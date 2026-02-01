@@ -1,4 +1,18 @@
 <script setup lang="ts">
+/**
+ * NoteForm
+ * 
+ * A reusable form component that is responsible for creating and editing notes.
+ * Supports both "create" and "edit" modes, with form validation and loading states.
+ * 
+ * @example
+ * ```vue
+ * <NoteForm mode="create" :is-loading="isCreating" @submit="handleSubmit" @cancel="handleCancel" />
+ * ```
+ * 
+ * @component
+ */
+
 import { watch } from 'vue'
 import { Category, type Note } from '@/types'
 import { useForm, Field as VeeField } from 'vee-validate'
@@ -9,7 +23,6 @@ import { Field, FieldLabel, FieldError } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { SaveIcon, X, Loader2 } from 'lucide-vue-next'
-import { Textarea } from './ui/textarea'
 import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from './ui/input-group'
 
 interface Props {
@@ -39,7 +52,7 @@ const { handleSubmit, resetForm, setValues } = useForm({
   },
 })
 
-// Populate form when initial data is provided (edit mode)
+// populate form when initial data is provided - used in edit mode
 watch(
   () => props.initialData,
   (note) => {
@@ -55,8 +68,8 @@ watch(
 )
 
 const onSubmit = handleSubmit((data) => {
-  //only reset form if in create mode
-  //and keep selected category
+  // only reset form if in create mode
+  // and keep selected category
   if (props.mode === 'create') resetForm({
     values: {
       title: '',

@@ -52,7 +52,10 @@ export const useNotesStore = defineStore('notes', () => {
   })
 
   async function fetchNotes(force = false) {
-    // Avoid fetching if notes are already loaded unless forced
+    // avoid overlapping requests
+    if (isLoading.value) return
+
+    // avoid fetching if notes are already loaded unless forced
     if (notes.value.length > 0 && !force) return
 
     isLoading.value = true

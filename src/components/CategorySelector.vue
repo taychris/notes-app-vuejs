@@ -1,4 +1,5 @@
-<script setup lang="ts">/**
+<script setup lang="ts">
+/**
  * CategorySelector
  * 
  * A reusable category selection component that displays category buttons with visual feedback.
