@@ -17,7 +17,11 @@ import { Toaster } from '@/components/ui/sonner'
 
     <main class="min-h-screen pt-10 px-5 md:px-10">
       <div class="max-w-xl mx-auto">
-        <RouterView />
+        <RouterView v-slot="{ Component }">
+          <Transition name="slide" mode="out-in">
+            <component :is="Component" />
+          </Transition>
+        </RouterView>
       </div>
     </main>
 
@@ -30,6 +34,18 @@ import { Toaster } from '@/components/ui/sonner'
   </div>
 </template>
 
-<style></style>
+<style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.25s ease-out;
+}
 
-<style scoped></style>
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+}
+</style>

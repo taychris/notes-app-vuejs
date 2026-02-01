@@ -53,7 +53,7 @@ function handleCancel() {
   <AlertDialog v-model:open="isOpen">
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Delete Note</AlertDialogTitle>
+        <AlertDialogTitle>Delete note</AlertDialogTitle>
         <AlertDialogDescription>
           Are you sure you want to delete
           <span v-if="noteTitle" class="font-medium">"{{ noteTitle }}"</span>

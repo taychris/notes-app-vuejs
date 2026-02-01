@@ -33,27 +33,23 @@ function handleCreateNote() {
 <template>
   <div>
     <div class="flex items-center justify-between">
-      <h2 class="font-medium text-xl w-max">My Notes</h2>
+      <h2 class="font-medium text-xl w-max">My notes</h2>
       <Button @click="handleCreateNote" title="Create new note">
         <PlusIcon class="h-4 w-4" />
-        New Note
+        New
       </Button>
     </div>
     <TransitionGroup name="note" tag="ul" class="relative mt-4 grid gap-4">
       <li v-for="note in notesStore.filteredNotes" :key="note.id" class="list-none">
-        <NoteItem
-          :note="note"
-          @edit="handleEdit(note.id)"
-          @delete="handleDelete(note.id)"
-        />
+        <NoteItem :note="note" @edit="handleEdit(note.id)" @delete="handleDelete(note.id)" />
+      </li>
+      <li v-if="notesStore.filteredNotes.length === 0" key="empty" class="list-none">
+        <p class="text-center text-muted-foreground mt-4 font-light">No notes found.</p>
       </li>
     </TransitionGroup>
 
-    <DeleteNoteDialog
-      v-model:open="isDeleteDialogOpen"
-      :note-id="noteToDelete?.id ?? null"
-      :note-title="noteToDelete?.title"
-    />
+    <DeleteNoteDialog v-model:open="isDeleteDialogOpen" :note-id="noteToDelete?.id ?? null"
+      :note-title="noteToDelete?.title" />
   </div>
 </template>
 

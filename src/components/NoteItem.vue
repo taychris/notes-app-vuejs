@@ -31,7 +31,7 @@ function handleDelete(id: string) {
 <template>
   <Card class="group transition-shadow hover:shadow-md gap-2 bg-gray-50 dark:bg-neutral-900">
     <CardHeader class="flex-row items-start justify-between gap-0 space-y-0">
-      <CardTitle class="line-clamp-2 text-lg">{{ note.title }}</CardTitle>
+      <CardTitle class="line-clamp-2 text-md font-medium">{{ note.title }}</CardTitle>
     </CardHeader>
 
     <CardContent>
@@ -40,7 +40,7 @@ function handleDelete(id: string) {
       </p>
     </CardContent>
 
-    <CardFooter class="justify-between gap-2">
+    <CardFooter class="justify-between gap-2 mt-2">
       <div class="flex items-center gap-4">
         <Badge :class="categoryColors[note.category].color">{{ note.category }}</Badge>
         <span class="text-xs text-muted-foreground">
