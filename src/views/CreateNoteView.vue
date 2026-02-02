@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { useCreateNote } from '@/composables/useCreateNote'
 import type { NoteFormValues } from '@/schemas/noteSchema'
-import NoteForm from '@/components/NoteForm.vue'
+import NoteFormCustomValidation from '@/components/NoteFormCustomValidation.vue'
 
 const router = useRouter()
 
@@ -20,6 +20,6 @@ function handleCancel() {
 
 <template>
   <div>
-    <NoteForm mode="create" :is-loading="isCreating" @submit="handleSubmit" @cancel="handleCancel" />
+    <NoteFormCustomValidation mode="create" :is-loading="isCreating" @submit="handleSubmit" @cancel="handleCancel" />
   </div>
 </template>

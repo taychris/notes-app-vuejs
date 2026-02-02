@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useNotesStore } from '@/stores/notesStore'
 import { useUpdateNote } from '@/composables/useUpdateNote'
 import type { NoteFormValues } from '@/schemas/noteSchema'
-import NoteForm from '@/components/NoteForm.vue'
+import NoteFormCustomValidation from '@/components/NoteFormCustomValidation.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -29,7 +29,7 @@ function handleCancel() {
 
 <template>
   <div>
-    <NoteForm
+    <NoteFormCustomValidation
       mode="edit"
       :initial-data="note"
       :is-loading="isUpdating"
