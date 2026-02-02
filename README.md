@@ -79,9 +79,8 @@ cd notes-app-vuejs
 # Install dependencies
 npm install
 
-# Install your chosen UI library
-# Example for Vuetify:
-npm install vuetify
+# Start the local mock server
+json-server --watch db.json --port 3001
 
 # Start development server
 npm run dev
