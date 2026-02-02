@@ -3,7 +3,6 @@ import { ref, watch } from 'vue'
 import { Loader2, TrashIcon, XIcon } from 'lucide-vue-next'
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -12,6 +11,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { useDeleteNote } from '@/composables/useDeleteNote'
+import { Button } from '@/components/ui/button'
 
 interface Props {
   noteId: string | null
@@ -28,9 +28,11 @@ const { isDeleting, deleteNote } = useDeleteNote()
 const pendingNoteId = ref<string | null>(null)
 
 watch(isOpen, (open) => {
-  if (open && props.noteId) {
-    pendingNoteId.value = props.noteId
+  if (open) {
+    if (props.noteId) pendingNoteId.value = props.noteId
+    return
   }
+  pendingNoteId.value = null
 })
 
 async function handleConfirmDelete() {
@@ -42,15 +44,10 @@ async function handleConfirmDelete() {
     pendingNoteId.value = null
   }
 }
-
-function handleCancel() {
-  isOpen.value = false
-  pendingNoteId.value = null
-}
 </script>
 
 <template>
-  <AlertDialog :open="isOpen">
+  <AlertDialog v-model:open="isOpen">
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>Delete note</AlertDialogTitle>
@@ -62,16 +59,16 @@ function handleCancel() {
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel :disabled="isDeleting" @click="handleCancel">
+        <AlertDialogCancel :disabled="isDeleting">
           <XIcon aria-hidden="true" focusable="false" class="size-4" />
           Cancel
         </AlertDialogCancel>
-        <AlertDialogAction class="bg-red-500 text-white hover:bg-destructive/90" :disabled="isDeleting"
-          @click.prevent="handleConfirmDelete">
+        <Button class="bg-red-500 text-white hover:bg-destructive/90" :disabled="isDeleting"
+          @click="handleConfirmDelete">
           <Loader2 v-if="isDeleting" aria-hidden="true" focusable="false" class="size-4 animate-spin" />
           <TrashIcon v-if="!isDeleting" aria-hidden="true" focusable="false" class="size-4" />
           {{ isDeleting ? 'Deleting...' : 'Delete' }}
-        </AlertDialogAction>
+        </Button>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
