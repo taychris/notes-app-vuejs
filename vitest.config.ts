@@ -1,6 +1,11 @@
 import { fileURLToPath } from 'node:url'
 import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
-import viteConfig from './vite.config'
+import viteConfigExport from './vite.config'
+
+const viteConfig =
+  typeof viteConfigExport === 'function'
+    ? viteConfigExport({ command: 'build', mode: 'test' })
+    : viteConfigExport
 
 export default mergeConfig(
   viteConfig,

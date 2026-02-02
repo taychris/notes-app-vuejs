@@ -30,8 +30,12 @@ function exportSelectedCategoryAsJson() {
   exportNotesToJsonFile(props.filteredNotes, `notes-${selectedCategoryFilenamePart.value}`, props.searchQuery)
 }
 
-function exportSelectedCategoryAsPdf() {
-  exportNotesToPdfFile(props.filteredNotes, `notes-${selectedCategoryFilenamePart.value}`, props.searchQuery)
+async function exportSelectedCategoryAsPdf() {
+  await exportNotesToPdfFile(
+    props.filteredNotes,
+    `notes-${selectedCategoryFilenamePart.value}`,
+    props.searchQuery,
+  )
 }
 
 </script>

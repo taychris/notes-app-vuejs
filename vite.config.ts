@@ -5,15 +5,15 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
     vue(),
-    vueDevTools(),
-    tailwindcss()
+    ...(command === 'serve' ? [vueDevTools()] : []),
+    tailwindcss(),
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(__dirname, './src'),
     },
   },
-})
+}))

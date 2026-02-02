@@ -1,6 +1,13 @@
 import type { Note } from '@/types'
 import { format } from 'date-fns'
-import { jsPDF } from 'jspdf'
+
+let jsPdfModulePromise: Promise<typeof import('jspdf')> | null = null
+
+// lazy load jsPDF module for quicker initial load time
+async function loadJsPdfModule() {
+  jsPdfModulePromise ??= import('jspdf')
+  return jsPdfModulePromise
+}
 
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob)
@@ -27,9 +34,14 @@ export function exportNotesToJsonFile(notes: Note[], filenamePrefix: string, sea
   downloadBlob(blob, filename)
 }
 
-export function exportNotesToPdfFile(notes: Note[], filenamePrefix: string, searchQuery?: string) {
+export async function exportNotesToPdfFile(
+  notes: Note[],
+  filenamePrefix: string,
+  searchQuery?: string,
+) {
   const filename = `${filenamePrefix}-${format(new Date(), 'yyyy-MM-dd_HH-mm-ss')}.pdf`
 
+  const { jsPDF } = await loadJsPdfModule()
   const doc = new jsPDF({ unit: 'pt', format: 'a4' })
   const margin = 40
   const lineHeight = 14
