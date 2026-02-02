@@ -4,6 +4,7 @@ import { useDebounceFn } from '@vueuse/core'
 import { InputGroup, InputGroupInput, InputGroupAddon } from '@/components/ui/input-group'
 import { Search } from 'lucide-vue-next'
 import { useNotesStore } from '@/stores/notesStore'
+import Label from '@/components/ui/label/Label.vue'
 
 const notesStore = useNotesStore()
 const searchInput = ref(notesStore.searchQuery)
@@ -19,9 +20,16 @@ watch(searchInput, (value) => {
 
 <template>
   <InputGroup>
-    <InputGroupInput v-model="searchInput" placeholder="Search by title or description..." />
+    <Label for="notes-search" class="sr-only">Search notes</Label>
+    <InputGroupInput
+      id="notes-search"
+      v-model="searchInput"
+      type="search"
+      autocomplete="off"
+      placeholder="Search by title or description..."
+    />
     <InputGroupAddon>
-      <Search />
+      <Search aria-hidden="true" focusable="false" />
     </InputGroupAddon>
   </InputGroup>
 </template>

@@ -39,8 +39,13 @@ function exportSelectedCategoryAsPdf() {
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline" title="Export options" :disabled="props.filteredNotes.length <= 0">
-        <DownloadIcon />
+      <Button
+        variant="outline"
+        title="Export options"
+        aria-label="Export notes"
+        :disabled="props.filteredNotes.length <= 0"
+      >
+        <DownloadIcon aria-hidden="true" focusable="false" />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">

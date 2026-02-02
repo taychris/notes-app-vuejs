@@ -29,16 +29,16 @@ interface Props {
     isLoading?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    mode: 'create',
-    isLoading: false,
-})
-
 interface FormData {
     title: string
     description: string
     category: Category
 }
+
+const props = withDefaults(defineProps<Props>(), {
+    mode: 'create',
+    isLoading: false,
+})
 
 const emit = defineEmits<{
     cancel: []
@@ -54,10 +54,17 @@ const title = ref('')
 const description = ref('')
 const category = ref<Category>(Category.PERSONAL)
 
+const titleHelpId = 'note-title-help'
+const titleErrorId = 'note-title-error'
+const descriptionHelpId = 'note-description-help'
+const descriptionErrorId = 'note-description-error'
+const categoryLabelId = 'note-category-label'
+
 const {
     titleError,
     descriptionError,
     isValid,
+    rules,
     titleCharactersRemaining,
     descriptionCharactersRemaining,
     setDirtyTitle,
@@ -114,9 +121,9 @@ function handleCancel() {
 
 <template>
     <div class="w-full max-w-2xl">
-        <h2 class="text-2xl font-semibold mb-6">
+        <h1 data-page-title tabindex="-1" class="text-2xl font-semibold mb-6">
             {{ mode === 'edit' ? 'Edit note' : 'Create new note' }}
-        </h2>
+        </h1>
 
         <form class="flex flex-col gap-6" @submit="onSubmit">
             <Field :data-invalid="!!titleError">
@@ -125,23 +132,24 @@ function handleCancel() {
                     <span class="text-destructive">*</span>
                 </FieldLabel>
                 <InputGroup>
-                    <InputGroupInput id="title" v-model="title" placeholder="Enter note title..."
-                        :aria-invalid="!!titleError" @blur="setDirtyTitle" />
+                    <InputGroupInput id="title" v-model="title" placeholder="Enter note title..." required
+                        :minlength="rules.titleMinLength" :maxlength="rules.titleMaxLength" :aria-invalid="!!titleError"
+                        @blur="setDirtyTitle" />
                     <InputGroupAddon align="inline-end">
-                        <InputGroupText class="tabular-nums font-normal">
+                        <InputGroupText :id="titleHelpId" class="tabular-nums font-normal">
                             {{ title.length }}/{{ titleCharactersRemaining + title.length }} characters
                         </InputGroupText>
                     </InputGroupAddon>
                 </InputGroup>
-                <FieldError :errors="titleError ? [titleError] : []" />
+                <FieldError :id="titleErrorId" :errors="titleError ? [titleError] : []" />
             </Field>
 
             <Field>
-                <FieldLabel>
+                <FieldLabel :id="categoryLabelId">
                     Category
                     <span class="text-destructive">*</span>
                 </FieldLabel>
-                <CategorySelector v-model="category" />
+                <CategorySelector v-model="category" :aria-labelledby="categoryLabelId" />
             </Field>
 
             <Field :data-invalid="!!descriptionError">
@@ -151,26 +159,27 @@ function handleCancel() {
                 </FieldLabel>
                 <InputGroup>
                     <InputGroupTextarea id="description" v-model="description" placeholder="Enter note description..."
+                        required :minlength="rules.descriptionMinLength" :maxlength="rules.descriptionMaxLength"
                         :rows="6" class="min-h-24 resize-none" :aria-invalid="!!descriptionError"
                         @blur="setDirtyDescription" />
                     <InputGroupAddon align="block-end">
-                        <InputGroupText class="tabular-nums font-normal">
+                        <InputGroupText :id="descriptionHelpId" class="tabular-nums font-normal">
                             {{ description.length }}/{{ descriptionCharactersRemaining + description.length }}
                             characters
                         </InputGroupText>
                     </InputGroupAddon>
                 </InputGroup>
-                <FieldError :errors="descriptionError ? [descriptionError] : []" />
+                <FieldError :id="descriptionErrorId" :errors="descriptionError ? [descriptionError] : []" />
             </Field>
 
             <div class="flex gap-3 justify-end pt-4">
                 <Button type="button" variant="outline" :disabled="isLoading" @click="handleCancel">
-                    <X />
+                    <X aria-hidden="true" focusable="false" />
                     Cancel
                 </Button>
                 <Button type="submit" :disabled="isLoading || !isValid">
-                    <Loader2 v-if="isLoading" class="size-4 animate-spin" />
-                    <SaveIcon v-else />
+                    <Loader2 v-if="isLoading" aria-hidden="true" focusable="false" class="size-4 animate-spin" />
+                    <SaveIcon v-else aria-hidden="true" focusable="false" />
                     {{ isLoading ? 'Saving...' : mode === 'edit' ? 'Update' : 'Create' }}
                 </Button>
             </div>

@@ -63,13 +63,13 @@ function handleCancel() {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel :disabled="isDeleting" @click="handleCancel">
-          <XIcon class="size-4" />
+          <XIcon aria-hidden="true" focusable="false" class="size-4" />
           Cancel
         </AlertDialogCancel>
         <AlertDialogAction class="bg-red-500 text-white hover:bg-destructive/90" :disabled="isDeleting"
           @click.prevent="handleConfirmDelete">
-          <Loader2 v-if="isDeleting" class="size-4 animate-spin" />
-          <TrashIcon v-if="!isDeleting" class="size-4" />
+          <Loader2 v-if="isDeleting" aria-hidden="true" focusable="false" class="size-4 animate-spin" />
+          <TrashIcon v-if="!isDeleting" aria-hidden="true" focusable="false" class="size-4" />
           {{ isDeleting ? 'Deleting...' : 'Delete' }}
         </AlertDialogAction>
       </AlertDialogFooter>

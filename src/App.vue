@@ -15,15 +15,15 @@ import { Toaster } from '@/components/ui/sonner'
       <DarkModeToggle />
     </header>
 
-    <main class="min-h-screen pt-10 px-5 md:px-10">
-      <div class="max-w-xl mx-auto">
-        <RouterView v-slot="{ Component }">
-          <Transition name="slide" mode="out-in">
-            <component :is="Component" />
-          </Transition>
-        </RouterView>
-      </div>
-    </main>
+	    <main tabindex="-1" class="min-h-screen pt-10 px-5 md:px-10">
+	      <div class="max-w-xl mx-auto">
+	        <RouterView v-slot="{ Component }">
+	          <Transition name="slide" mode="out-in">
+	            <component :is="Component" />
+	          </Transition>
+	        </RouterView>
+	      </div>
+	    </main>
 
     <footer class="py-10">
       <div class="text-center font-light text-sm">

@@ -48,11 +48,13 @@ function handleDelete(id: string) {
         </span>
       </div>
       <div class="flex items-center gap-2">
-        <Button variant="ghost" size="icon-sm" @click="handleEdit(note.id)" title="Edit note">
-          <Pencil class="size-4" />
+        <Button variant="ghost" size="icon-sm" title="Edit note" :aria-label="`Edit note: ${note.title}`"
+          @click="handleEdit(note.id)">
+          <Pencil aria-hidden="true" focusable="false" class="size-4" />
         </Button>
-        <Button variant="ghost" size="icon-sm" @click="handleDelete(note.id)" title="Delete note">
-          <Trash2 class="size-4" />
+        <Button variant="ghost" size="icon-sm" title="Delete note" :aria-label="`Delete note: ${note.title}`"
+          @click="handleDelete(note.id)">
+          <Trash2 aria-hidden="true" focusable="false" class="size-4" />
         </Button>
       </div>
     </CardFooter>

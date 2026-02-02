@@ -40,27 +40,42 @@ function handleCreateNote() {
 <template>
   <div>
     <div class="flex items-center justify-between mb-4">
-      <h2 class="font-medium text-xl w-max">My notes</h2>
+      <h2 id="notes-list-title" tabindex="-1" class="font-medium text-xl w-max">My notes</h2>
       <div class="flex items-center gap-2">
         <RefreshNotes @click="handleRefresh" :is-loading="notesStore.isLoading" />
         <ExportDropdown :selected-category="notesStore.selectedCategory" :filtered-notes="notesStore.filteredNotes"
           :search-query="notesStore.searchQuery" />
         <Button @click="handleCreateNote" title="Create new note">
-          <PlusIcon class="h-4 w-4" />
+          <PlusIcon aria-hidden="true" focusable="false" class="h-4 w-4" />
           New
         </Button>
       </div>
     </div>
     <Searchbar />
+
+    <div v-if="notesStore.error" role="alert"
+      class="mt-4 rounded-md border border-destructive/30 bg-destructive/10 p-3">
+      <p class="font-medium text-center">Failed to load notes</p>
+      <p class="mt-1 text-sm text-muted-foreground">{{ notesStore.error }}</p>
+      <div class="mt-3 mx-auto w-max space-x-2">
+        <Button size="sm" :disabled="notesStore.isLoading" @click="handleRefresh">Try
+          again</Button>
+        <Button variant="ghost" size="sm" :disabled="notesStore.isLoading" @click="notesStore.clearError">
+          Dismiss
+        </Button>
+      </div>
+    </div>
+
     <TransitionGroup name="note" tag="ul" class="relative mt-6 grid gap-4">
-      <li v-if="notesStore.filteredNotes.length === 0 && !notesStore.isLoading" key="empty" class="list-none">
+      <li v-if="notesStore.filteredNotes.length === 0 && !notesStore.isLoading && !notesStore.error" key="empty"
+        class="list-none">
         <p class="text-center text-muted-foreground mt-4 font-light">No notes found.</p>
       </li>
       <li v-if="notesStore.isLoading" key="loading" class="list-none">
         <p class="text-center text-muted-foreground mt-4 font-light animate-pulse">Loading notes...</p>
       </li>
       <li v-if="!notesStore.isLoading" v-for="note in notesStore.filteredNotes" :key="note.id" class="list-none">
-        <NoteItem :note="note" @edit="handleEdit(note.id)" @delete="handleDelete(note.id)" />
+        <NoteItem :note="note" @edit="handleEdit" @delete="handleDelete" />
       </li>
     </TransitionGroup>
 

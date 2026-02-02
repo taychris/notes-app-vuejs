@@ -7,7 +7,7 @@ const notesStore = useNotesStore()
 
 <template>
   <div class="flex flex-col gap-3 mb-6">
-    <h3 class="font-medium text-xl">Filter by category</h3>
-    <CategorySelector v-model="notesStore.selectedCategory" include-all />
+    <h2 id="category-filter-heading" class="font-medium text-xl">Filter by category</h2>
+    <CategorySelector v-model="notesStore.selectedCategory" include-all aria-labelledby="category-filter-heading" />
   </div>
 </template>

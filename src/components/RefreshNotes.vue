@@ -16,8 +16,8 @@ const emit = defineEmits<{
 
 </script>
 <template>
-    <Button variant="ghost" title="Click to refresh notes" :disabled="props.isLoading" :aria-busy="props.isLoading"
-        @click="() => !props.isLoading && emit('click')">
-        <RefreshCcw :class="props.isLoading ? 'animate-spin' : ''" />
+    <Button variant="ghost" title="Click to refresh notes" aria-label="Refresh notes" :disabled="props.isLoading"
+        :aria-busy="props.isLoading" @click="() => !props.isLoading && emit('click')">
+        <RefreshCcw aria-hidden="true" focusable="false" :class="props.isLoading ? 'animate-spin' : ''" />
     </Button>
 </template>
